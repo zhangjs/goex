@@ -2,12 +2,13 @@ package common
 
 import (
 	"fmt"
+	"net/http"
+	"net/url"
+
 	. "github.com/nntaoli-project/goex/v2/httpcli"
 	"github.com/nntaoli-project/goex/v2/logger"
 	. "github.com/nntaoli-project/goex/v2/model"
 	. "github.com/nntaoli-project/goex/v2/util"
-	"net/http"
-	"net/url"
 )
 
 func (okx *OKxV5) GetName() string {
@@ -114,6 +115,22 @@ func (okx *OKxV5) GetFundingRateHistory(pair CurrencyPair, limit int, opts ...Op
 	}
 	rates, err = okx.UnmarshalOpts.GetFundingRateHistoryResponseUnmarshaler(data)
 	return rates, nil, err
+}
+
+func (okx *OKxV5) GetMarkPrice(pair CurrencyPair, opts ...OptionParameter) (price *MarkPrice, responseBody []byte, err error) {
+	reqUrl := fmt.Sprintf("%s%s", okx.UriOpts.Endpoint, okx.UriOpts.GetMarkPriceUri)
+	param := url.Values{}
+	param.Set("instId", pair.Symbol)
+	MergeOptionParams(&param, opts...)
+	data, responseBody, err := okx.DoNoAuthRequest(http.MethodGet, reqUrl, &param)
+	if err != nil {
+		return nil, responseBody, err
+	}
+	price, err = okx.UnmarshalOpts.GetMarkPriceResponseUnmarshaler(data)
+	if price != nil && err == nil {
+		price.Symbol = pair.Symbol
+	}
+	return price, nil, err
 }
 
 func (okx *OKxV5) DoNoAuthRequest(httpMethod, reqUrl string, params *url.Values) ([]byte, []byte, error) {

@@ -12,9 +12,7 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/klauspost/compress v1.16.5 // indirect
-	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/text v0.15.0 // indirect

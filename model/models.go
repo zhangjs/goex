@@ -164,3 +164,9 @@ type FundingRate struct {
 	Rate   float64 `json:"rate"`
 	Tm     int64   `json:"tm"` //资金费收取时间
 }
+
+type MarkPrice struct {
+	Symbol    string  `json:"symbol"`
+	MarkPrice float64 `json:"markPx"`
+	Timestamp int64   `json:"ts"`
+}

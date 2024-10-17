@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/buger/jsonparser"
 	"github.com/nntaoli-project/goex/v2/logger"
 	. "github.com/nntaoli-project/goex/v2/model"
 	"github.com/spf13/cast"
-	"time"
 )
 
 type RespUnmarshaler struct {
@@ -440,6 +441,23 @@ func (un *RespUnmarshaler) UnmarshalGetFundingRateHistoryResponse(data []byte) (
 		rates = append(rates, rate)
 	})
 	return rates, err
+}
+
+func (un *RespUnmarshaler) UnmarshalGetMarkPriceResponse(data []byte) (*MarkPrice, error) {
+	var markPrice MarkPrice
+	err := jsonparser.ObjectEach(data[1:len(data)-1], func(key []byte, value []byte, dataType jsonparser.ValueType, offset int) error {
+		switch string(key) {
+		case "markPx":
+			markPrice.MarkPrice = cast.ToFloat64(string(value))
+		case "ts":
+			markPrice.Timestamp = cast.ToInt64(string(value))
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &markPrice, nil
 }
 
 func (un *RespUnmarshaler) UnmarshalResponse(data []byte, res interface{}) error {

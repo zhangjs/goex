@@ -2,6 +2,7 @@ package common
 
 import (
 	"encoding/json"
+
 	. "github.com/nntaoli-project/goex/v2/options"
 )
 
@@ -42,6 +43,7 @@ func New() *OKxV5 {
 			GetExchangeInfoUri:       "/api/v5/public/instruments",
 			GetFundingRateUri:        "/api/v5/public/funding-rate",
 			GetFundingRateHistoryUri: "/api/v5/public/funding-rate-history",
+			GetMarkPriceUri:          "/api/v5/public/mark-price",
 		},
 		UnmarshalOpts: UnmarshalerOptions{
 			ResponseUnmarshaler:                      unmarshaler.UnmarshalResponse,
@@ -59,6 +61,7 @@ func New() *OKxV5 {
 			GetExchangeInfoResponseUnmarshaler:       unmarshaler.UnmarshalGetExchangeInfoResponse,
 			GetFundingRateResponseUnmarshaler:        unmarshaler.UnmarshalGetFundingRateResponse,
 			GetFundingRateHistoryResponseUnmarshaler: unmarshaler.UnmarshalGetFundingRateHistoryResponse,
+			GetMarkPriceResponseUnmarshaler:          unmarshaler.UnmarshalGetMarkPriceResponse,
 		},
 	}
 

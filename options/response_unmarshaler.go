@@ -17,7 +17,7 @@ type GetFuturesAccountResponseUnmarshaler func([]byte) (map[string]model.Futures
 type GetExchangeInfoResponseUnmarshaler func([]byte) (map[string]model.CurrencyPair, error)
 type GetFundingRateResponseUnmarshaler func([]byte) (*model.FundingRate, error)
 type GetFundingRateHistoryResponseUnmarshaler func([]byte) ([]model.FundingRate, error)
-
+type GetMarkPriceRespsonseUnmarshaler func([]byte) (*model.MarkPrice, error)
 type UnmarshalerOptions struct {
 	ResponseUnmarshaler                      ResponseUnmarshaler
 	TickerUnmarshaler                        GetTickerResponseUnmarshaler
@@ -34,6 +34,7 @@ type UnmarshalerOptions struct {
 	GetExchangeInfoResponseUnmarshaler       GetExchangeInfoResponseUnmarshaler
 	GetFundingRateResponseUnmarshaler        GetFundingRateResponseUnmarshaler
 	GetFundingRateHistoryResponseUnmarshaler GetFundingRateHistoryResponseUnmarshaler
+	GetMarkPriceResponseUnmarshaler          GetMarkPriceRespsonseUnmarshaler
 }
 
 type UnmarshalerOption func(options *UnmarshalerOptions)
@@ -124,5 +125,11 @@ func WithGetFundingRateResponseUnmarshaler(unmarshaler GetFundingRateResponseUnm
 func WithGetFundingRateHistoryResponseUnmarshaler(unmarshaler GetFundingRateHistoryResponseUnmarshaler) UnmarshalerOption {
 	return func(options *UnmarshalerOptions) {
 		options.GetFundingRateHistoryResponseUnmarshaler = unmarshaler
+	}
+}
+
+func WithGetMarkPriceResponseUnmarshaler(unmarshaler GetMarkPriceRespsonseUnmarshaler) UnmarshalerOption {
+	return func(options *UnmarshalerOptions) {
+		options.GetMarkPriceResponseUnmarshaler = unmarshaler
 	}
 }
